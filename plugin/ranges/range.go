@@ -87,7 +87,7 @@ func (p *RangePlugin) findUnboundAddr(ctx context.Context, mac net.HardwareAddr,
 // ServeDHCP implements the plugin.Handler interface and served DHCP requests
 func (p *RangePlugin) ServeDHCP(ctx context.Context, req, res *dhcpv4.DHCPv4) error {
 	db := lease.GetDatabase(ctx)
-	cli := lease.Client{HwAddr: req.ClientHWAddr}
+	cli := lease.Client{HwAddr: req.ClientHWAddr, Hostname: res.HostName()}
 
 	if dhcpserver.Discover(req) {
 		ip := p.findUnboundAddr(ctx, req.ClientHWAddr, req.RequestedIPAddress(), db)
